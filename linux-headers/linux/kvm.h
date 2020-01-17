@@ -983,6 +983,9 @@ struct kvm_ppc_resize_hpt {
 /* Indicates that the KVM provided uses DBT instead of actual KVM */
 #define KVM_CAP_DBT 259
 
+/* This capability allows user to customize memory regions */
+#define KVM_CAP_USER_CUSTOM_MEM_REGION 301
+
 /****************************************/
 
 #ifdef KVM_CAP_IRQ_ROUTING
@@ -1482,6 +1485,16 @@ struct kvm_dev_snapshot {
 /* Available with KVM_CAP_CPU_CLOCK_SCALE */
 #define KVM_SET_CLOCK_SCALE _IOWR(KVMIO, 0xf8, unsigned*)
 
+/* Available with KVM_CAP_USER_CUSTOM_MEM_REGION */
+struct kvm_mem_init {
+    __u32 baseaddr;
+    __u32 size;
+    __u8 num;
+    /* If is_rom == 0, indicates expected memoy region is ram */
+    __u8 is_rom;
+};
+
+#define KVM_MEM_REGION_INIT _IOWR(KVMIO, 0xf9, struct kvm_mem_init)
 
 /* Secure Encrypted Virtualization command */
 enum sev_cmd_id {
