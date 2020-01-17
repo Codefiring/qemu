@@ -37,7 +37,7 @@ static bool cap_has_mp_state;
 
 static ARMHostCPUFeatures arm_host_cpu_features;
 
-int kvm_cortex_m_vcpu_init(CPUState *cs) 
+int kvm_cortex_m_set_regs(CPUState *cs) 
 {
     ARMCPU *cpu = ARM_CPU(cs);
     CPUARMState *env = &cpu->env;
@@ -513,7 +513,7 @@ void kvm_arm_reset_vcpu(ARMCPU *cpu)
      * their respective reset values.
      */
     if (arm_feature(&cpu->env, ARM_FEATURE_M)){
-        ret = kvm_cortex_m_vcpu_init(CPU(cpu));
+        ret = kvm_cortex_m_set_regs(CPU(cpu));
     }
     else {
         ret = kvm_arm_vcpu_init(CPU(cpu));

@@ -16,7 +16,7 @@
 #include "qemu/error-report.h"
 
 /**
- * kvm_cortex_m_vcpu_init:
+ * kvm_cortex_m_set_regs:
  * @env: CPUARMState
  *
  * Initialize (or reinitialize) the cotex-m VCPU by invoking the
@@ -24,7 +24,7 @@
  *
  * Returns: 0 if success else < 0 error code
  */
-int kvm_cortex_m_vcpu_init(CPUState *cs);
+int kvm_cortex_m_set_regs(CPUState *cs);
 
 /**
  * kvm_cortex_m_vcpu_sync

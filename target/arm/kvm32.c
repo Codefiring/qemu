@@ -174,7 +174,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
     ARMCPU *cpu = ARM_CPU(cs);
 
     if (arm_feature(&cpu->env, ARM_FEATURE_M)) {
-        return kvm_cortex_m_vcpu_init(cs);
+        return kvm_cortex_m_set_regs(cs);
     }
     else {
         if (cpu->kvm_target == QEMU_KVM_ARM_TARGET_NONE) {
@@ -314,7 +314,7 @@ int kvm_arch_put_registers(CPUState *cs, int level)
     uint32_t cpsr, fpscr;
 
     if (arm_feature(&cpu->env, ARM_FEATURE_M)) {
-        return kvm_cortex_m_vcpu_init(cs);
+        return kvm_cortex_m_set_regs(cs);
     } else {
         /* Make sure the banked regs are properly set */
         mode = env->uncached_cpsr & CPSR_M;
