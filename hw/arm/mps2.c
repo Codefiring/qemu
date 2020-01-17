@@ -351,10 +351,9 @@ static void mps2_common_init(MachineState *machine)
          */
         Object *orgate;
         DeviceState *orgate_dev;
-        int i;
 
         orgate = object_new(TYPE_OR_IRQ);
-        object_property_set_int(orgate, 10, "num-lines", &error_fatal);
+        object_property_set_int(orgate, 2, "num-lines", &error_fatal);
         object_property_set_bool(orgate, true, "realized", &error_fatal);
         orgate_dev = DEVICE(orgate);
         /* UART 0/1/2/3/4 overflow interrupt INTISR bit is 12 */
@@ -376,11 +375,10 @@ static void mps2_common_init(MachineState *machine)
         cmsdk_apb_uart_create(uartbase,
                               qdev_get_gpio_in(txrx_orgate_dev, 0),
                               qdev_get_gpio_in(txrx_orgate_dev, 1),
-                              qdev_get_gpio_in(orgate_dev, i * 2),
-                              qdev_get_gpio_in(orgate_dev, i * 2 + 1),
+                              qdev_get_gpio_in(orgate_dev, 0),
+                              qdev_get_gpio_in(orgate_dev, 1),
                               NULL,
-                              serial_hd(i), SYSCLK_FRQ);
-        }
+                              serial_hd(0), SYSCLK_FRQ);
         break;
     }
     default:
