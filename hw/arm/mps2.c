@@ -360,29 +360,26 @@ static void mps2_common_init(MachineState *machine)
         /* UART 0/1/2/3/4 overflow interrupt INTISR bit is 12 */
         qdev_connect_gpio_out(orgate_dev, 0, qdev_get_gpio_in(armv7m, 12));
 
-        for (i = 0; i < 5; i++) {
-            /* system irq numbers for the combined tx/rx for each UART */
-            static const int uart_txrx_irqno[] = {0, 2, 45, 46, 56};
-            static const hwaddr uartbase[] = {0x40004000, 0x40005000,
-                                              0x4002c000, 0x4002d000,
-                                              0x4002e000};
-            Object *txrx_orgate;
-            DeviceState *txrx_orgate_dev;
+        /* system irq numbers for the combined tx/rx for each UART */
+        static const int uart_txrx_irqno = 0;
+        static const hwaddr uartbase = 0x40004000;
+        Object *txrx_orgate;
+        DeviceState *txrx_orgate_dev;
 
-            txrx_orgate = object_new(TYPE_OR_IRQ);
-            object_property_set_int(txrx_orgate, 2, "num-lines", &error_fatal);
-            object_property_set_bool(txrx_orgate, true, "realized",
-                                     &error_fatal);
-            txrx_orgate_dev = DEVICE(txrx_orgate);
-            qdev_connect_gpio_out(txrx_orgate_dev, 0,
-                                  qdev_get_gpio_in(armv7m, uart_txrx_irqno[i]));
-            cmsdk_apb_uart_create(uartbase[i],
-                                  qdev_get_gpio_in(txrx_orgate_dev, 0),
-                                  qdev_get_gpio_in(txrx_orgate_dev, 1),
-                                  qdev_get_gpio_in(orgate_dev, i * 2),
-                                  qdev_get_gpio_in(orgate_dev, i * 2 + 1),
-                                  NULL,
-                                  serial_hd(i), SYSCLK_FRQ);
+        txrx_orgate = object_new(TYPE_OR_IRQ);
+        object_property_set_int(txrx_orgate, 2, "num-lines", &error_fatal);
+        object_property_set_bool(txrx_orgate, true, "realized",
+                                 &error_fatal);
+        txrx_orgate_dev = DEVICE(txrx_orgate);
+        qdev_connect_gpio_out(txrx_orgate_dev, 0,
+                              qdev_get_gpio_in(armv7m, uart_txrx_irqno));
+        cmsdk_apb_uart_create(uartbase,
+                              qdev_get_gpio_in(txrx_orgate_dev, 0),
+                              qdev_get_gpio_in(txrx_orgate_dev, 1),
+                              qdev_get_gpio_in(orgate_dev, i * 2),
+                              qdev_get_gpio_in(orgate_dev, i * 2 + 1),
+                              NULL,
+                              serial_hd(i), SYSCLK_FRQ);
         }
         break;
     }
