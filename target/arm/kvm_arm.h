@@ -19,7 +19,7 @@
  * kvm_cortex_m_set_regs:
  * @env: CPUARMState
  *
- * Initialize (or reinitialize) the cotex-m VCPU by invoking the
+ * set the cotex-m VCPU by invoking the
  * cotex-m reg write ioctl with the CPUARMState  
  *
  * Returns: 0 if success else < 0 error code
