@@ -357,6 +357,7 @@ static void mps2_common_init(MachineState *machine)
         object_property_set_int(orgate, 10, "num-lines", &error_fatal);
         object_property_set_bool(orgate, true, "realized", &error_fatal);
         orgate_dev = DEVICE(orgate);
+        /* UART 0/1/2/3/4 overflow interrupt INTISR bit is 12 */
         qdev_connect_gpio_out(orgate_dev, 0, qdev_get_gpio_in(armv7m, 12));
 
         for (i = 0; i < 5; i++) {
