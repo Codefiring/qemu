@@ -730,7 +730,7 @@ int armv7m_nvic_complete_irq(void *opaque, int irq, bool secure)
 //        /* Tell the caller this was an illegal exception return */
 //        return -1;
 //    }
-    assert(vec->active); /* Tell the caller this was an illegal exception return */
+//  assert(vec->active); /* Tell the caller this was an illegal exception return */
     ret = nvic_rettobase(s);
 
     vec->active = 0;
