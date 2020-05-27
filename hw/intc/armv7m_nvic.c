@@ -677,10 +677,10 @@ void armv7m_nvic_acknowledge_irq(void *opaque, int irq)
     assert(vec->enabled);
 
     //assert(vec->pending); // comment this in case interrupt race
-    while (s->vectpending_prio >= running || vec->pending == 0) {
-        printf("wait to complete 0x%x\n", vec->pending);
-        usleep(1);
-    }
+    /* while (s->vectpending_prio >= running || vec->pending == 0) { */
+        /* printf("wait to complete 0x%x\n", vec->pending); */
+        /* usleep(1); */
+    /* } */
 
     assert(s->vectpending_prio < running);
 
