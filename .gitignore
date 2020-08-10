@@ -1,3 +1,4 @@
+po/*.po
 roms/vgabios/
 qemu.creator
 qemu.files
